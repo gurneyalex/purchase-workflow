@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Author: Nicolas Bessi
-#    Copyright 2013 Camptocamp SA
+#    Copyright 2013, 2014 Camptocamp SA
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,5 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . import model
-from . import utils
+from . import pricelist
+from . import framework_agreement
+from . import product
+from . import purchase
+from . import company

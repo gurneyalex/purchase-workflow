@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Author: Nicolas Bessi
-#    Copyright 2013 Camptocamp SA
+#    Copyright 2014 Camptocamp SA
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -19,7 +19,7 @@
 #
 ##############################################################################
 {'name': 'Simple Framework Agreement',
- 'version': '0.1.1',
+ 'version': '1.0',
  'author': 'Camptocamp',
  'maintainer': 'Camptocamp',
  'category': 'Purchase Management',
@@ -46,8 +46,8 @@ warning will be raised in case of exhaustion of override of agreement price.
 
 **Technical aspect**
 
-The module provide an observalbe mixin to enable generic on_change management
-on various model related to agreements.
+The module provide an observable mixin to enable generic on_change management
+on various models related to agreements.
 
 The framework agreement is by default related to purchase order but the addon
 provides a library to integrate it with any other model easily
