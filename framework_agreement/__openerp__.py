@@ -18,13 +18,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{'name': 'Simple Framework Agreement',
+{'name': 'Framework Agreement',
  'version': '1.0',
  'author': 'Camptocamp',
  'maintainer': 'Camptocamp',
  'category': 'Purchase Management',
  'complexity': 'normal',
- 'depends': ['stock', 'procurement', 'purchase'],
+ 'depends': ['stock', 'procurement', 'purchase', 'web_context_tunnel'],
  'description': """
 Long Term Agreement (or Framework Agreement) on price.
 ======================================================

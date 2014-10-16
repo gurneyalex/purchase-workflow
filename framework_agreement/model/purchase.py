@@ -103,17 +103,19 @@ class purchase_order_line(orm.Model):
                             qty, uom_id, partner_id, date_order=False,
                             fiscal_position_id=False,
                             date_planned=False, name=False,
-                            price_unit=False, state='draft',
-                            agreement_id=False, context=None):
+                            price_unit=False, state='draft', context=None):
         """ We override this function to check qty change (I know...)
 
         The price retrieval is managed by
         the override of product.pricelist.price_get
 
         that is overidden to support agreement.
-        This is mabye a faulty design as it has a low level impact
+        This is maybe a faulty design as it has a low level impact
+
+        We use web_context_tunnel to keep the original signature.
 
         """
+        agreement_id = context.get('agreement_id')
         # rock n'roll
         res = super(purchase_order_line, self).onchange_product_id(
             cr,
@@ -202,11 +204,12 @@ class purchase_order(models.Model):
         return res
 
     @api.multi
-    def onchange_pricelist(self, pricelist_id, line_ids):
+    def onchange_pricelist(self, pricelist_id):
+        """We use web_context_tunnel to keep the original signature"""
         res = super(purchase_order, self).onchange_pricelist(
             pricelist_id,
         )
-        if not pricelist_id or not line_ids:
+        if not pricelist_id or not self._context.get('order_line_ids'):
             return res
         if self.framework_agreement_id:
             raise exceptions.Warning(
@@ -235,14 +238,18 @@ class purchase_order(models.Model):
         return {}
 
     @api.multi
-    def onchange_partner_id(self, partner_id, agreement_id):
-        """Override to ensure that partner can not be changed if agreement"""
+    def onchange_partner_id(self, partner_id):
+        """Override to ensure that partner can not be changed if agreement.
+
+        We use web_context_tunnel in order to keep the original signature.
+
+        """
         res = super(purchase_order, self).onchange_partner_id(
             partner_id
         )
-        if agreement_id:
+        if self._context.get('agreement_id'):
             raise exceptions.Warning(
-                _('You can not change supplier'
-                  'PO is linked to an agreement')
+                _('You cannot change the supplier: '
+                  'the PO is linked to an agreement')
             )
         return res
