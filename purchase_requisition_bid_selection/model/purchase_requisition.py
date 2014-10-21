@@ -373,15 +373,7 @@ class PurchaseRequisition(models.Model):
         """
         Check all quantities have been sourced
         """
-        # this method is called from a special JS event and ids is
-        # inferred from 'active_ids', in some cases, the webclient send
-        # no ids, so we prevent a crash
-        if not self.ids:
-            raise except_orm(
-                _('Error'),
-                _('Impossible to proceed due to an error of the system.\n'
-                  'Please reopen the purchase requisition and try again '))
-        assert len(self.ids) == 1, "Only 1 ID expected, got %s" % self.ids
+        self.ensure_one()
         dp_obj = self.env['decimal.precision']
         precision = dp_obj.precision_get('Product Unit of Measure')
         for line in self.line_ids:
@@ -400,10 +392,9 @@ class PurchaseRequisition(models.Model):
         # open a dialog to confirm that we want more / less or no qty
         ctx = self.env.context.copy()
 
-        ctx.update({
-            'action': 'close_callforbids_ok',
-            'active_model': self._name,
-            })
+        ctx.update({'action': 'close_callforbids_ok',
+                    'active_model': self._name,
+                    })
         IrModelData = self.env['ir.model.data']
         ref = (
             'purchase_requisition_bid_selection.action_modal_close_callforbids'
