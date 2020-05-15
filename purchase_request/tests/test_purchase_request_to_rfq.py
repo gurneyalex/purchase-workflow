@@ -20,7 +20,6 @@ class TestPurchaseRequestToRfq(common.TransactionCase):
         self.service_product = self.env['product.product'].create({
             'name': 'Product Service Test',
             'type': 'service',
-            'service_to_purchase': True,
         })
         self.env['product.supplierinfo'].create({
             'name': vendor.id,
@@ -41,7 +40,6 @@ class TestPurchaseRequestToRfq(common.TransactionCase):
         purchase_request1 = self.purchase_request.create(vals)
         purchase_request1.button_approved()
         vals = {
-            'supplier_id': self.env.ref('base.res_partner_1').id,
             'line_ids': [[0, 0, {
                 'product_id': self.env.ref('product.product_product_13').id,
                 'product_uom_id': self.env.ref('uom.product_uom_unit').id,
